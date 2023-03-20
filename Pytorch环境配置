@@ -1,0 +1,7 @@
+一、安装 miniconda3
+打开WSL，通过 wget 下载 miniconda.sh，运行 sh 文件
+:~$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+:~$ sh Miniconda3-latest-Linux-x86_64.sh
+随后会显示 miniconda 的 license，就一直按回车，直到出现 yes/no，键入 yes，一路 yes，直到最后，初始化 miniconda3，自动将环境变量写入 .bashrc 。
+:~$ source ~/.bashrc    # 重新激活环境变量
+:~$ conda -h          # 检查conda是否安装成功
