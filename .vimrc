@@ -1,4 +1,3 @@
-
 set backspace=2
 set tabstop=4
 set softtabstop=4
@@ -13,7 +12,7 @@ highlight LineNr ctermfg=black
 highlight LineNr ctermbg=lightyellow
 
 "设置F5一键执行并显示结果，注意空格
-map<F5> :w<CR>:!python %<CR>
+map <F5> :w<CR>:!python %<CR>
 "设置F3调用目录树
 map <F3> :NERDTreeToggle<CR>
 
