@@ -59,3 +59,9 @@ index-url = https://pypi.mirrors.ustc.edu.cn/simple
 临时使用： 
 可以在使用pip的时候在后面加上-i参数，指定pip源
  pip install scrapy -i https://pypi.tuna.tsinghua.edu.cn/simple
+ 
+ ===========每次打开，conda默认启动环境总是为base=========
+ 修改方法：
+修改~/.bashrc文件，在conda部分的结尾加上:
+conda activate your_envs   # "your_envs"就是你的环境
+再source ~/.bashrc即可，下次conda打开的环境就是你设置的这个环境了。
