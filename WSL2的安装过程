@@ -1,2 +1,0 @@
-只有一台笔记本电脑的情况下，Windows系统的虚拟机虽然能运行linux系统，但是不能调用GPU，不利于进行深度学习及图像处理相关的工作
-采用WSL2（windows subsystem for linux），windows+linux双系统，即节省空间，又提高了运行效率，还能调用GPU

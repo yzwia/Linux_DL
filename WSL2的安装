@@ -1,0 +1,26 @@
+Windows系统的虚拟机虽然能运行linux系统，但是不能调用GPU，采用WSL2（windows subsystem for linux），即节省空间，又提高了运行效率，还能调用GPU
+================安装过程==========================
+以管理员身份打开 PowerShell（PowerShell >“开始”菜单>右键单击>以管理员身份运行），然后输入以下命令，然后重新启动计算机
+# 默认安装WSL 1
+dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+在安装 WSL 2 之前，必须启用虚拟机平台可选功能，以管理员身份打开 PowerShell 并运行以下命令，然后重启计算机。
+dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+下载并安装 Linux 内核更新程序包：适用于 x2 计算机的 WSL64 Linux 内核更新包
+https://link.csdn.net/?target=https%3A%2F%2Fwslstorestorage.blob.core.windows.net%2Fwslblob%2Fwsl_update_x64.msi
+上一步命令运行完必须重启，否则该步安装更新包将报错。
+命令安装默认 WSL 大版本为 2，手动安装默认为 1，通过以下方式更改 WSL 版本：
+若要在安装新的 Linux 发行版时将默认版本设置为 WSL 2，请使用命令：
+# <Version#>替换为 1或2
+wsl --set-default-version <Version#> 
+# 这里我将默认版本设为 2
+wsl --set-default-version 2
+检查是否更新到 WSLg 版本，在 PowerShell 运行以下命令可查看 WSLg版本
+wsl --version
+
+================安装linux发行版==========================
+从官网下载想要安装的Linux发行版
+https://learn.microsoft.com/en-us/windows/wsl/install-manual#downloading-distributions
+以我下载的Ubuntu 22.04 LTS为例，在D盘新建 WSL 文件夹，将下载得到的 AppxBundle 文件放到 WSL 文件夹下，修改后缀名为 .zip ，然后提取其中的 Ubuntu_2204.1.7.0_x64.appx。
+同样更改后缀名为 .zip ，接着解压缩，进入 Ubuntu_2204.1.7.0_x64 文件夹，双击 ubuntu.exe 安装。设置用户名和密码，设置完成即可进入Ubuntu。
+进入安装的Linux发行版的方式有很多种，如:
+打开 powershell 或 cmd 命令行，输入wsl，进入默认的Linux发行版；强烈推荐安装 Windows Terminal (可通过Power shell命令安装)。
