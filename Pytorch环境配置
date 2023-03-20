@@ -1,7 +1,98 @@
 一、安装 miniconda3
 打开WSL，通过 wget 下载 miniconda.sh，运行 sh 文件
-:~$ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-:~$ sh Miniconda3-latest-Linux-x86_64.sh
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
+sh Miniconda3-latest-Linux-x86_64.sh
 随后会显示 miniconda 的 license，就一直按回车，直到出现 yes/no，键入 yes，一路 yes，直到最后，初始化 miniconda3，自动将环境变量写入 .bashrc 。
-:~$ source ~/.bashrc    # 重新激活环境变量
-:~$ conda -h          # 检查conda是否安装成功
+source ~/.bashrc    # 重新激活环境变量
+conda -h          # 检查conda是否安装成功
+
+二、配置 conda 镜像源
+新建 .condarc 文件
+vim ~/.condarc
+以下给出常用的清华源，英文状态下按 i 键进入编辑模式，粘贴到 .condarc 中后，按 Esc 键返回命令模式，键入 :wq 保存退出，就完成了 conda 镜像源的配置。
+channels:
+  - defaults
+show_channel_urls: true
+default_channels:
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/main
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/r
+  - https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/msys2
+custom_channels:
+  conda-forge: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  msys2: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  bioconda: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  menpo: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  pytorch-lts: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  simpleitk: https://mirrors.tuna.tsinghua.edu.cn/anaconda/cloud
+  
+三、安装 pytorch-gpu
+# -n 后面的参数为环境名，可自行更改， python版本也根据自己项目决定
+conda create -n torch-1.10.2 python=3.8
+# 激活环境
+conda activate torch
+离线方式，pip安装自己离线下载的 torch 和 torch-version
+# 下载需要的版本到本地，下载地址：http://download.pytorch.org/whl/torch_stable.html
+# pip 离线安装, 如安装下载到本地的 python3.8版的torch-1.10.0+cu113
+切换到windows下存放以上安装包的目录（wsl的/mnt/自动与windows的磁盘挂载）
+cd /mnt/e/下载/
+pip install torch-1.10.0+cu113-cp38-cp38m-linux_x86_64.whl
+pip install torchvision-0.11.0+cu113-cp38-cp38m-linux_x86_64.whl
+验证是否能使用 GPU
+:~$ python
+>>> import torch
+>>> torch.cuda.is_available() # 出现 True 即成功安装GPU版本pytorch
+
+四、CUDA on WSL 安装（如果windows下有，wsl可以不装）
+目前从英伟达的[7]官方文档中可以看到，只需要在 Windows下安装 NVIDIA 的驱动程序，不需要在WSL中安装任何Linux显示驱动，
+最新的 NVIDIA Windows GPU 驱动程序完全支持WSL2，网络上其他博客提到的在WSL下安装 GPU 驱动已经不适用了。
+https://www.nvidia.com/Download/index.aspx?lang=en-us
+通过在英伟达所在目录下使用cmd命令，再通过 nvidia-smi 命令即可查看到 WSL Ubuntu 下已经有 NVIDIA 驱动。
+另外特别提醒一点，如果只是使用 Pytorch 框架，那么无需单独安装 CUDA，pytorch-gpu 版的安装文件中包含有 CUDA；Tensorflow 或者 TensorRT 则需要再单独安装CUDA。
+
+五、CUDA Toolkit 安装
+官方下载地址：https://developer.nvidia.cn/cuda-toolkit-archive，根据自己的需求选择版本
+我安装的是 CUDA 11.3，选择 Linux -> x86_64 -> WSL-Ubuntu ->2.0，
+下载页面的下方给出了安装的步骤，根据步骤进行安装即可：
+wget https://developer.download.nvidia.com/compute/cuda/repos/wsl-ubuntu/x86_64/cuda-wsl-ubuntu.pin
+sudo mv cuda-wsl-ubuntu.pin /etc/apt/preferences.d/cuda-repository-pin-600
+sudo apt-key del 7fa2af80
+sudo apt-get update
+wget https://developer.download.nvidia.com/compute/cuda/11.3.1/local_installers/cuda-repo-wsl-ubuntu-11-3-local_11.3.1-1_amd64.deb
+sudo dpkg -i cuda-repo-wsl-ubuntu-11-3-local_11.3.1-1_amd64.deb
+sudo apt-key add /var/cuda-repo-wsl-ubuntu-11-3-local/7fa2af80.pub
+sudo apt-get update
+sudo apt-get -y install cuda
+
+#添加环境变量，更新可能需要的依赖
+vim ~/.bashrc
+# 添加内容
+export CUDA_HOME=/usr/local/cuda
+export PATH=$PATH:$CUDA_HOME/bin
+export LD_LIBRARY_PATH=/usr/local/cuda-11.3/lib64${LD_LIBRARY_PATH:+:${LD_LIBRARY_PATH}}
+
+# 更新一下bashrc
+source ~/.bashrc
+# 更新可能需要的依赖
+sudo apt-get install freeglut3-dev build-essential libx11-dev libxmu-dev libxi-dev libgl1-mesa-glx libglu1-mesa libglu1-mesa-dev
+#检查是否安装成功
+nvcc -V
+
+六、cuDNN配置
+cuDNN下载地址：https://developer.nvidia.com/rdp/cudnn-archive#a-collapse830-115
+选择适配的 cuDNN 版本，这里我下载到 Windows 下的目录中。WSL2下若要访问 Windows 下文件，可进入 /mnt/ 查看。
+点击Download cuDNN v8.2.1,for CUDA 11.x
+选择cuDNN Library for Linux(x86_64)，此处可以登录账号下载，也可以直接右键链接迅雷下载。
+
+下载好后，在wsl中切换到/mnt/e/下载，也即windows下存放上述安装包的文件夹
+# 以下是安装命令，其中文件路径需要更改成你自己下载的路径
+tar -zxvf cudnn-11.3-linux-x64-v8.2.1.32.tgz
+# 版本号更改成自己下载的版本号
+sudo cp -P ./cuda/lib64/libcudnn* /usr/local/cuda-11.3/lib64/
+sudo cp ./cuda/include/cudnn.h /usr/local/cuda-11.3/include/
+ 
+# 更改读取权限
+sudo chmod a+r /usr/local/cuda-11.3/include/cudnn.h
+sudo chmod a+r /usr/local/cuda-11.3/lib64/libcudnn*
+
+至此，CUDA 和 cuDNN配置完成。
