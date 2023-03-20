@@ -27,7 +27,7 @@ set autoindent
 set smartindent
 "开始安装插件
 call plug#begin('~/.vim/plugged')
-Plug 'scrooloose/nerdtree',{'on':'NERDTreeToggle'}  " 目录树
+Plug 'scrooloose/nerdtree' " 目录树
 Plug 'itchyny/lightline.vim'  "轻量级的状态栏
 Plug 'ycm-core/YouCompleteMe' "自动补全代码
 Plug 'jiangmiao/auto-pairs' "自动补全括号
@@ -44,3 +44,20 @@ call plug#end()
 输入 :PlugStatus 就会看到所有的插件都安装 OK。
 #删除插件：
 直接在上面的配置文件中将对应的插件名删除或注释掉，重新运行 vim 后，使用命令 :PlugClean 将自动删除不在配置文件中的插件。
+
+
+======想办法，让你的服务器能访问以正常速度访问 Github====
+除了科学上网以外，给大家介绍一种可以公开、又非常有效的方法。
+修改 ~/.vim/autoload/plug.vim 将
+let fmt = get(g:, 'plug_url_format', 'https://git::@github.com/%s.git')
+复制代码
+改成
+let fmt = get(g:, 'plug_url_format', 'https://git::@hub.fastgit.org/%s.git')
+复制代码
+将这行
+\ '^https://git::@github\.com', 'https://github.com', '')
+复制代码
+改成
+\ '^https://git::@hub.fastgit\.org', 'https://hub.fastgit.org', '')
+复制代码
+然后再进入 vim 执行 :PlugInstall 就可以了
