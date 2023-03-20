@@ -24,3 +24,38 @@ https://learn.microsoft.com/en-us/windows/wsl/install-manual#downloading-distrib
 同样更改后缀名为 .zip ，接着解压缩，进入 Ubuntu_2204.1.7.0_x64 文件夹，双击 ubuntu.exe 安装。设置用户名和密码，设置完成即可进入Ubuntu。
 进入安装的Linux发行版的方式有很多种，如:
 打开 powershell 或 cmd 命令行，输入wsl，进入默认的Linux发行版；强烈推荐安装 Windows Terminal (可通过Power shell命令安装)。
+
+================更换apt源和pip源=========================
+apt源：
+将之前的软件源进行备份sudo cp /etc/apt/sources.list /etc/apt/sources.list.backup
+执行gedit /etc/apt/sources.list，替换为以下内容（其中，jammy是ubuntu22.04的发行代号）：
+deb https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-updates main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-backports main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-security main restricted universe multiverse
+deb https://mirrors.ustc.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+deb-src https://mirrors.ustc.edu.cn/ubuntu/ jammy-proposed main restricted universe multiverse
+再执行以下命令更新
+sudo apt-get update #更新软件列表
+sudo apt-get upgrade # 更新本地软件
+
+pip源：
+1.在主目录创建.pip文件夹
+sudo mkdir .pip
+2.进入./pip文件夹
+cd .pip
+3.创建pip.conf文件（touch\vim\gedit均可）
+sudo touch pip.conf
+4.打开pip.conf文件
+sudo gedit pip.conf
+5.替换为以下内容：
+[global]
+index-url = https://pypi.mirrors.ustc.edu.cn/simple
+
+临时使用： 
+可以在使用pip的时候在后面加上-i参数，指定pip源
+ pip install scrapy -i https://pypi.tuna.tsinghua.edu.cn/simple
