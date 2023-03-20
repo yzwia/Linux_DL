@@ -39,6 +39,7 @@ call plug#end()
 ：PlugInstall
 即开始安装。
 
+#插件推荐网站：https://vimawesome.com/
 
 #查看插件：
 输入 :PlugStatus 就会看到所有的插件都安装 OK。
