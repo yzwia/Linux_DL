@@ -1,0 +1,28 @@
+首先是下载插件管理器
+https://github.com/junegunn/vim-plug
+可以采用在线安装，这里采用离线安装的方式：
+先下载plug.vim文件（下好后，注意打开看看有没有乱码），
+文件内容可以参考https://github.com/junegunn/vim-plug/blob/master/plug.vim
+下载好后，先在home目录下，新建以下文件夹，注意：
+sudo mkdir ~/.vim
+sudo mkdir ~/.vim/autoload
+sudo mkdir ~/.vim/doc
+sudo mkdir ~/.vim/syntax
+sudo mkdir ~/.vim/plugin
+sudo mkdir ~/.vim/plugged
+
+将下载好的plug.vim移动到 ~/.vim/autoload
+sudo cp ./plug.vim ~/.vim/autoload
+验证是否成功装上插件，进入vim，输入
+:scriptnames就会显示这个插件了
+
+再新建一个vim用户配置文件vimrc，不同于/etc/目录下的vimrc为系统配置文件:
+vim ~/.vimrc
+复制以下内容：
+call plug#begin('~/.vim/plugged')
+Plug 'scrooloose/nerdtree', { 'on':  'NERDTreeToggle' }
+call plug#end()
+
+回到Vim，输入
+：PlugInstall
+即开始安装。
