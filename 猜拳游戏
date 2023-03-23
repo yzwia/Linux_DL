@@ -1,0 +1,20 @@
+import random
+s = input("请输入:o:石头/v:剪刀/b:布：")
+l = random.choice(["o","v","b"])
+list = {"o":"石头","v":"剪刀","b":"布"}
+if s in ("o","v","b"):
+    if(l=="o"):
+    ¦   if(s=="o"):print("again")
+    ¦   elif(s=="v"):print("===LOSE===")
+    ¦   else:print("===WIN===")
+    if(l=="v"):
+    ¦   if(s=="v"):print("again")
+    ¦   elif(s=="b"):print("===LOSE===")
+    ¦   else:print("===WIN===")
+    if(l=="b"):
+    ¦   if(s=="b"):print("again")
+    ¦   elif(s=="o"):print("===LOSE===")
+    ¦   else:print("===WIN===")
+    print("您的输入为:{} ".format(list[s]))
+    print("对方的输入为:{} ".format(list[l]))
+else:print("输入错误！")
