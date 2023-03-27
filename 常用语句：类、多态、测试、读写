@@ -1,0 +1,21 @@
+=======多态=======
+Class AI(object):
+    def __init__(self,name):  # 定义类，必须要有初始化函数表示接收哪些参数，还必须有self，表示是自身的变量
+        self.__name = name    # 变量前加__，表示Private私有变量，外界无法更改
+    def getname(self):
+        print(self.__name)
+
+chater1111 = AI('Bob') # 将chater1111实例化（相当于是类别为AI的个体）
+
+Class chater2222(AI)  # 定义一个新的类别chater2222，并继承AI
+    def fixname(self):  # chater2222拥有了AI的全部功能的情况下，再定义新的功能，即为多态（保留父类方法，还建立了独特的方法）
+        pass
+        
+        
+ ========测试=======
+if __name__ == '__main__':  # 该脚本.py被其他文件引用时，只引用该语句之前的内容，从而方便测试每个部分
+    print(abc)
+    
+ =======读写=====
+ with open('/mnt/c/User/...') as F:   #打开文件并关闭，以便于节省操作系统的资源
+ 
