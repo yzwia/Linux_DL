@@ -1,6 +1,3 @@
-首先是下载插件管理器
-https://github.com/junegunn/vim-plug
-可以采用在线安装，这里采用离线安装的方式：
 先下载plug.vim文件（下好后，注意打开看看有没有乱码），
 文件内容可以参考https://github.com/junegunn/vim-plug/blob/master/plug.vim
 下载好后，先在home目录下，新建以下文件夹，注意：
