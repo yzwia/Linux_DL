@@ -34,6 +34,12 @@ call plug#end()
 =====安装python代码补全插件======
 详见网址：https://blog.csdn.net/qq_40905198/article/details/103864814
 
+代码补全，第三方库无法识别！
+解决办法：进入pydiction/complete-dict字典，自行加入一些常用的
+
+=====使用sudo vim不加载/.vimrc配置文件=====
+将用户改成vim权限，方便后续用vim编辑
+
 
 ======想办法，让你的服务器能访问以正常速度访问 Github====
 除了科学上网以外，给大家介绍一种可以公开、又非常有效的方法。
